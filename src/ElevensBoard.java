@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -84,7 +86,15 @@ public class ElevensBoard extends Board {
     @Override
     public boolean anotherPlayIsPossible() {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-        return true;
+
+        List<Integer> cards = cardIndexes();
+        if(containsPairSum11(cards))
+        {
+            return true;
+        }else if(containsJQK(cards)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -98,10 +108,26 @@ public class ElevensBoard extends Board {
     private boolean containsPairSum11(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
         int sum=0;
+        HashMap<Integer, Integer> pointIndex = new HashMap<>();
+        List<Integer> cards = new ArrayList<>();
         for(Integer index: selectedCards)
         {
-            sum+=cardAt(index).pointValue();
+            cards.add(cardAt(index).pointValue());
         }
+        Collections.sort(cards);
+        int i=0;
+        int j = cards.size()-1;
+        while(i<j)
+        {
+            if(cards.get(i) + cards.get(j) == sum)
+                return true;
+            else if(A[l] + A[r] < sum)
+                i++;
+            else // A[i] + A[j] > sum
+                j--;
+        }
+
+
         return true;
     }
 
@@ -115,16 +141,28 @@ public class ElevensBoard extends Board {
      */
     private boolean containsJQK(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-        int sum=0;
-        if(selectedCards.size())
+        boolean j=false;
+        boolean q=false;
+        boolean k=false;
 
-        for(Integer index: selectedCards)
-        {
-            sum+= cardAt(index).pointValue();
-        }
-        if(sum==0)
-        {
-            return true;
+        if(selectedCards.size()>=3) {
+            for (Integer index : selectedCards) {
+               if(cardAt(index).rank().equals("jack"))
+               {
+                   j=true;
+               }
+                if(cardAt(index).rank().equals("queen"))
+                {
+                    q=true;
+                }
+                if(cardAt(index).rank().equals("king"))
+                {
+                    k=true;
+                }
+            }
+            if (j && q && k ) {
+                return true;
+            }
         }
         return false;
     }
