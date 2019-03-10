@@ -107,8 +107,9 @@ public class ElevensBoard extends Board {
      */
     private boolean containsPairSum11(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-        int sum=0;
-        HashMap<Integer, Integer> pointIndex = new HashMap<>();
+
+        int sum=11; // the sum to find.
+
         List<Integer> cards = new ArrayList<>();
         for(Integer index: selectedCards)
         {
@@ -117,18 +118,19 @@ public class ElevensBoard extends Board {
         Collections.sort(cards);
         int i=0;
         int j = cards.size()-1;
-        while(i<j)
+        while(i < j )
         {
-            if(cards.get(i) + cards.get(j) == sum)
+            if(cards.get(i) + cards.get(j) == sum) {
                 return true;
-            else if(A[l] + A[r] < sum)
+            }
+            else if(cards.get(i) + cards.get(j) < sum) {
                 i++;
-            else // A[i] + A[j] > sum
+            }
+            else {
                 j--;
+            }
         }
-
-
-        return true;
+        return false;
     }
 
     /**
